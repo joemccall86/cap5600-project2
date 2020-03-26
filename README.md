@@ -41,4 +41,17 @@ This project is built with Python 3.8
 * Actuators - The agent interacts with the environment by distributing test kits
 * Sensors - The results of the distributed test kits from the previous round are reported back to the agent.
 
+## Tasks (no order)
 
+- [ ] Create classes to run the environment
+- [ ] Read initial information from a config file (YAML?)
+- [ ] Implement exponential increase in infection chance function (get_next_alpha)
+- [ ] Implement a town increasing in infections
+- [ ] Implement even distribution of test kits strategy
+- [ ] Implement epsilon-greedy strategy
+- [ ] Run the experiment with both strategies, adjusting the data as needed
+- [ ] Plot the data in a bar chart for each town
+- [ ] Summarize experiment in report
+- [ ] Build tools to package project
+- [ ] Document running the project
+- [ ] Earn another A
