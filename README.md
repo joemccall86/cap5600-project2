@@ -41,6 +41,9 @@ This project is built with Python 3.8
 * Actuators - The agent interacts with the environment by distributing test kits
 * Sensors - The results of the distributed test kits from the previous round are reported back to the agent.
 
+## Data
+* https://www.nytimes.com/article/coronavirus-county-data-us.html
+
 ## Tasks (no order)
 
 - [ ] Create classes to run the environment
