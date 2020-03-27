@@ -42,7 +42,8 @@ This project is built with Python 3.8
 * Sensors - The results of the distributed test kits from the previous round are reported back to the agent.
 
 ## Data
-* https://www.nytimes.com/article/coronavirus-county-data-us.html
+
+We could use data from https://www.nytimes.com/article/coronavirus-county-data-us.html. It would appear that it's county-wide, so it might make more sense to re-model this problem per-county instead of per-town. 
 
 ## Tasks (no order)
 
