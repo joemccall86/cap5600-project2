@@ -3,6 +3,8 @@ from agent import Agent
 """
 Implementation of an agent that evenly distributes test kits evenly to all counties
 """
+
+
 class NaiveAgent(Agent):
     test_kit_capacity = 0
 
