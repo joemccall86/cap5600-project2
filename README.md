@@ -121,9 +121,9 @@ Data is pulled from https://www.nytimes.com/article/coronavirus-county-data-us.h
 
 - [ ] Create classes to run the environment
 - [ ] Read initial information from a config file (YAML?)
-- [ ] Implement exponential increase in infection chance function (get_next_alpha)
-- [ ] Implement a county increasing in infections
-- [ ] Implement even distribution of test kits strategy
+- [ ] Implement reading infection data using PANDAS and the NYT test data
+- [ ] Discover useful data set from NYT test data
+- [X] Implement even distribution of test kits strategy
 - [ ] Implement epsilon-greedy strategy
 - [ ] Run the experiment with both strategies, adjusting the data as needed
 - [ ] Plot the data in a bar chart for each county
@@ -134,5 +134,6 @@ Data is pulled from https://www.nytimes.com/article/coronavirus-county-data-us.h
 
 # Resources
 
-* https://jamesmccaffrey.wordpress.com/2017/11/30/the-epsilon-greedy-algorithm/
 * https://en.wikipedia.org/wiki/Multi-armed_bandit
+* https://jamesmccaffrey.wordpress.com/2017/11/30/the-epsilon-greedy-algorithm/
+* https://www.nytimes.com/article/coronavirus-county-data-us.html
