@@ -128,7 +128,7 @@ Data is pulled from https://www.nytimes.com/article/coronavirus-county-data-us.h
 - [ ] Run the experiment with both strategies, adjusting the data as needed
 - [ ] Plot the data in a bar chart for each county
 - [ ] Summarize experiment in report
-- [ ] Build tools to package project
+- [X] Build tools to package project
 - [ ] Document running the project
 - [ ] Earn another A
 
