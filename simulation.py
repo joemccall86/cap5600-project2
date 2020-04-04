@@ -34,6 +34,7 @@ class Simulation:
 
         # Run the simulation from start to end
         while environment.current_date < self.end_date:
+            print(f'Day {environment.current_date}:')
             environment.simulate_day()
 
 
@@ -41,18 +42,18 @@ if __name__ == '__main__':
     # TODO read this information from a configuration file, or from the command line arguments
 
     # Placeholder counties for now
-    seminole = County('Seminole', 467_832)
-    orange = County('Orange', 1_380_645)
-    brevard = County('Brevard', 596_849)
-    volusia = County('Volusia', 547_538)
-    duval = County('Duval', 950_181)
+    miami_dade = County('Miami-Dade', 2_761_581)
+    broward = County('Broward', 1_951_260)
+    palm_beach = County('Palm Beach', 1_485_941)
+    monroe = County('Monroe', 75_027)
+    collier = County('Collier', 378_488)
 
     simulation = Simulation(datetime(2020, 1, 1), datetime(2020, 3, 23), [
-        seminole,
-        orange,
-        brevard,
-        volusia,
-        duval
+        miami_dade,
+        broward,
+        palm_beach,
+        monroe,
+        collier
     ])
 
     simulation.run()

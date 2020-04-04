@@ -17,6 +17,6 @@ class NaiveAgent(Agent):
         Distribute the test kits evenly to all counties
         :return:
         """
-        num_test_kits_each = self.test_kit_capacity / len(self.counties)
+        num_test_kits_each = int(self.test_kit_capacity / len(self.counties))
         for county in self.counties:
             county.receive_test_kits(num_test_kits_each)
