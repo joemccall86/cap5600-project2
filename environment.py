@@ -29,6 +29,12 @@ class Environment:
             # Get the test results
             results = county.report_results()  # TODO do something with this
 
+            # TODO: make a data frame to store the following data:
+            # * County Name
+            # * Date
+            # * The number of positive/negative tests
+            # * The number of test kits the agent will distribute
+
             print(f"results for county {county.name}: {results}")
 
             # Have our agent consume them

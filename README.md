@@ -122,11 +122,11 @@ Data is pulled from https://www.nytimes.com/article/coronavirus-county-data-us.h
 - [ ] Create classes to run the environment
 - [ ] Read initial information from a config file (YAML?)
 - [ ] Implement reading infection data using PANDAS and the NYT test data
-- [ ] Discover useful data set from NYT test data
+- [X] Discover useful data set from NYT test data (South Florida)
 - [X] Implement even distribution of test kits strategy
 - [ ] Implement epsilon-greedy strategy
 - [ ] Run the experiment with both strategies, adjusting the data as needed
-- [ ] Plot the data in a bar chart for each county
+- [ ] Plot the data in a line chart for each county
 - [ ] Summarize experiment in report
 - [X] Build tools to package project
 - [ ] Document running the project
