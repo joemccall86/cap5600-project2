@@ -2,18 +2,23 @@ from datetime import datetime, timedelta
 
 from agent import Agent
 from naive_agent import NaiveAgent
+from random_test_kit_evaluator import RandomTestKitEvaluator
+from test_kit_evaluator import TestKitEvaluator
 
 
 class Environment:
     current_date: datetime
     agent: Agent
+    test_kit_evaluator: TestKitEvaluator
 
     def __init__(self, current_date, counties, num_test_kits_per_day):
         self.current_date = current_date
         self.counties = counties
         self.agent = NaiveAgent(self.counties, num_test_kits_per_day)
+        self.test_kit_evaluator = RandomTestKitEvaluator(self.current_date)
 
-        # Tell the agent to distribute the test kits before the first day is simulated so every county starts with some test kits.
+        # Tell the agent to distribute the test kits before the first day is simulated so every county starts with some
+        # test kits.
         self.agent.distribute_test_kits()
 
     def simulate_day(self):
@@ -24,7 +29,7 @@ class Environment:
         for county in self.counties:
 
             # Perform the tests
-            county.perform_tests()
+            county.perform_tests(self.test_kit_evaluator)
 
             # Get the test results
             results = county.report_results()  # TODO do something with this
@@ -45,3 +50,4 @@ class Environment:
 
         # Advance the day
         self.current_date = self.current_date + timedelta(days=1)
+        self.test_kit_evaluator.current_date = self.current_date

@@ -1,5 +1,3 @@
-import random
-
 """
 Represents a county in this simulation. Each county is responsible for running their own tests,
 keeping track of the number of test kits they have, and reporting back the results.
@@ -16,26 +14,24 @@ class County:
         self.name = name
         self.population = population
 
-    def perform_tests(self):
+    def perform_tests(self, test_kit_evaluator):
         """
         Run all the test kits, updating the number of positive cases and number of test kits remaining
         :return:
         """
         for _ in range(self.num_test_kits):
-            self.perform_test()
+            self.perform_test(test_kit_evaluator)
 
         # We have used up all the test kits, so set the number to 0
         self.num_test_kits = 0
 
-    def perform_test(self):
+    def perform_test(self, test_kit_evaluator):
         """
         Run a single test
         :return: True if this test resulted in a positive result, False otherwise
         """
-        # NOTE: on my other workstation I have a test implementation code that I'd like to use. For the time being let's make this just a random
-        # coin-flip. 50/50. That way we have at least _something_ running for this test.
-        coin_flip = random.randint(0, 1)
-        positive = coin_flip == 1  # TODO fill in with test evaluator implementation
+
+        positive = test_kit_evaluator.evaluate_test(self)
         if positive:
             self.num_positive_cases += 1
 
