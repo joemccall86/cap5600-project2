@@ -6,11 +6,9 @@ Implementation of an agent that evenly distributes test kits evenly to all count
 
 
 class NaiveAgent(Agent):
-    test_kit_capacity = 0
 
     def __init__(self, counties, test_kit_capacity):
-        super().__init__(counties)
-        self.test_kit_capacity = test_kit_capacity
+        super().__init__(counties, test_kit_capacity)
 
     def distribute_test_kits(self):
         """
