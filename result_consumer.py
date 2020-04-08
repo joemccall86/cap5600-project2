@@ -1,3 +1,3 @@
 class ResultConsumer:
-    def consume_result(self, county, results):
+    def consume_result(self, county, date, results):
         raise NotImplementedError("Subclass must implement abstract method")

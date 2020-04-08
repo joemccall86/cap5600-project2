@@ -40,14 +40,9 @@ class Environment:
             # Get the test results
             results = county.report_results()
 
+            # Consume the test results
             for consumer in self.result_consumers:
-                consumer.consume_result(county, results)
-
-            # TODO: make a data frame to store the following data:
-            # * County Name
-            # * Date
-            # * The number of positive/negative tests
-            # * The number of test kits the agent will distribute
+                consumer.consume_result(county, self.current_date, results)
 
             # Have our agent consume them
             self.agent.consume_test_results(county, results)
