@@ -1,9 +1,10 @@
 """
 Abstract implementation of agent
 """
+from result_consumer import ResultConsumer
 
 
-class Agent:
+class Agent(ResultConsumer):
     def __init__(self, counties):
         self.counties = counties
 
@@ -14,7 +15,7 @@ class Agent:
         """
         raise NotImplementedError("Subclass must implement abstract method")
 
-    def consume_test_results(self, county, results):
+    def consume_result(self, county, date, results):
         """
         Default implementation that does nothing
         :return:

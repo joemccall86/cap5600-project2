@@ -21,7 +21,7 @@ class Environment:
         self.counties = counties
         self.agent = NaiveAgent(self.counties, num_test_kits_per_day)
         self.test_kit_evaluator = RandomTestKitEvaluator(self.current_date)
-        self.result_consumers = [PrintResultConsumer(), PandasResultConsumer()]
+        self.result_consumers = [PrintResultConsumer(), PandasResultConsumer(), self.agent]
 
         # Tell the agent to distribute the test kits before the first day is simulated so every county starts with some
         # test kits.
@@ -43,9 +43,6 @@ class Environment:
             # Consume the test results
             for consumer in self.result_consumers:
                 consumer.consume_result(county, self.current_date, results)
-
-            # Have our agent consume them
-            self.agent.consume_test_results(county, results)
 
             # Tell the agent to distribute the test kits
             self.agent.distribute_test_kits()
