@@ -1,8 +1,12 @@
 from datetime import datetime, timedelta
+from typing import List
 
 from agent import Agent
 from naive_agent import NaiveAgent
+from pandas_result_consumer import PandasResultConsumer
+from print_result_consumer import PrintResultConsumer
 from random_test_kit_evaluator import RandomTestKitEvaluator
+from result_consumer import ResultConsumer
 from test_kit_evaluator import TestKitEvaluator
 
 
@@ -10,12 +14,14 @@ class Environment:
     current_date: datetime
     agent: Agent
     test_kit_evaluator: TestKitEvaluator
+    result_consumers: List[ResultConsumer]
 
     def __init__(self, current_date, counties, num_test_kits_per_day):
         self.current_date = current_date
         self.counties = counties
         self.agent = NaiveAgent(self.counties, num_test_kits_per_day)
         self.test_kit_evaluator = RandomTestKitEvaluator(self.current_date)
+        self.result_consumers = [PrintResultConsumer(), PandasResultConsumer()]
 
         # Tell the agent to distribute the test kits before the first day is simulated so every county starts with some
         # test kits.
@@ -32,15 +38,16 @@ class Environment:
             county.perform_tests(self.test_kit_evaluator)
 
             # Get the test results
-            results = county.report_results()  # TODO do something with this
+            results = county.report_results()
+
+            for consumer in self.result_consumers:
+                consumer.consume_result(county, results)
 
             # TODO: make a data frame to store the following data:
             # * County Name
             # * Date
             # * The number of positive/negative tests
             # * The number of test kits the agent will distribute
-
-            print(f"results for county {county.name}: {results}")
 
             # Have our agent consume them
             self.agent.consume_test_results(county, results)
