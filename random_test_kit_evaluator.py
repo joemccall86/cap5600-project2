@@ -5,10 +5,7 @@ from test_kit_evaluator import TestKitEvaluator
 
 class RandomTestKitEvaluator(TestKitEvaluator):
 
-    def __init__(self, current_date):
-        super().__init__(current_date)
-
-    def evaluate_test(self, county):
+    def evaluate_test(self, county, current_date):
         """
         Evaluate a test based on a random probability
         :return: True if the test is positive, False if negative

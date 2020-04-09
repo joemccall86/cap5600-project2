@@ -14,24 +14,24 @@ class County:
         self.name = name
         self.population = population
 
-    def perform_tests(self, test_kit_evaluator):
+    def perform_tests(self, test_kit_evaluator, current_date):
         """
         Run all the test kits, updating the number of positive cases and number of test kits remaining
         :return:
         """
         for _ in range(self.num_test_kits):
-            self.perform_test(test_kit_evaluator)
+            self.perform_test(test_kit_evaluator, current_date)
 
         # We have used up all the test kits, so set the number to 0
         self.num_test_kits = 0
 
-    def perform_test(self, test_kit_evaluator):
+    def perform_test(self, test_kit_evaluator, current_date):
         """
         Run a single test
         :return: True if this test resulted in a positive result, False otherwise
         """
 
-        positive = test_kit_evaluator.evaluate_test(self)
+        positive = test_kit_evaluator.evaluate_test(self, current_date)
         if positive:
             self.num_positive_cases += 1
 

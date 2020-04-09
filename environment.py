@@ -22,7 +22,7 @@ class Environment:
         self.counties = counties
         self.agent = EpsilonGreedyAgent(self.counties, num_test_kits_per_day)
         # self.agent = NaiveAgent(self.counties, num_test_kits_per_day)
-        self.test_kit_evaluator = RandomTestKitEvaluator(self.current_date)
+        self.test_kit_evaluator = RandomTestKitEvaluator()
         self.result_consumers = [PrintResultConsumer(), PandasResultConsumer(), self.agent]
 
         # Tell the agent to distribute the test kits before the first day is simulated so every county starts with some
@@ -37,7 +37,7 @@ class Environment:
         for county in self.counties:
 
             # Perform the tests
-            county.perform_tests(self.test_kit_evaluator)
+            county.perform_tests(self.test_kit_evaluator, self.current_date)
 
             # Get the test results
             results = county.report_results()
