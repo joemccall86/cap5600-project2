@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from typing import List
 
 from agent import Agent
+from epsilon_greedy_agent import EpsilonGreedyAgent
 from naive_agent import NaiveAgent
 from pandas_result_consumer import PandasResultConsumer
 from print_result_consumer import PrintResultConsumer
@@ -19,7 +20,8 @@ class Environment:
     def __init__(self, current_date, counties, num_test_kits_per_day):
         self.current_date = current_date
         self.counties = counties
-        self.agent = NaiveAgent(self.counties, num_test_kits_per_day)
+        self.agent = EpsilonGreedyAgent(self.counties, num_test_kits_per_day)
+        # self.agent = NaiveAgent(self.counties, num_test_kits_per_day)
         self.test_kit_evaluator = RandomTestKitEvaluator(self.current_date)
         self.result_consumers = [PrintResultConsumer(), PandasResultConsumer(), self.agent]
 

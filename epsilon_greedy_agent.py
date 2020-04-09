@@ -4,8 +4,7 @@ from agent import Agent
 
 
 class EpsilonGreedyAgent(Agent):
-
-    epsilon = 0.5
+    epsilon = 0.2
 
     def __init__(self, counties, test_kit_capacity):
         super().__init__(counties, test_kit_capacity)
@@ -15,24 +14,19 @@ class EpsilonGreedyAgent(Agent):
         self.highest_county = self.counties[0]
 
     def distribute_test_kits(self):
-        # Treat each test kit as a "trial" for the purposes of classical epsilon-greedy.
-        # Start out with 0 test kits for each county
-        test_kit_map = dict.fromkeys(self.counties, 0)
+        # The top county receives (1-epsilon) * test_kit_capacity test kits (Exploitation phase)
+        exploitation_kits = (1 - self.epsilon) * self.test_kit_capacity
 
-        # Determine which county gets the test kit
-        for test_kit_num in range(0, self.test_kit_capacity):
-            if test_kit_num % 2 == 0:
-                # Exploitation strategy: give the test kit to county with the highest number of positive results
-                test_kit_map[self.highest_county] += 1
-            else:
-                # Exploration strategy: this test kit goes to a random county
-                random_county = random.choice(self.counties)
-                test_kit_map[random_county] += 1
+        # The remaining kits are distributed evenly among the remaining counties (Exploration phase)
+        exploration_kits = self.test_kit_capacity - exploitation_kits
+        exploration_kits_per_county = exploration_kits / (len(self.counties) - 1)
 
         # Distribute the test kits based on the internal map
         for county in self.counties:
-            county.receive_test_kits(test_kit_map[county])
-
+            if county == self.highest_county:
+                county.receive_test_kits(int(exploitation_kits))
+            else:
+                county.receive_test_kits(int(exploration_kits_per_county))
 
     def consume_result(self, county, date, results):
         """
@@ -48,4 +42,3 @@ class EpsilonGreedyAgent(Agent):
         for county in self.counties:
             if self.county_cases[county] > self.county_cases[self.highest_county]:
                 self.highest_county = county
-
