@@ -2,11 +2,8 @@ from datetime import datetime, timedelta
 from typing import List
 
 from agent import Agent
-from epsilon_greedy_agent import EpsilonGreedyAgent
-from naive_agent import NaiveAgent
 from pandas_result_consumer import PandasResultConsumer
 from print_result_consumer import PrintResultConsumer
-from random_test_kit_evaluator import RandomTestKitEvaluator
 from result_consumer import ResultConsumer
 from test_kit_evaluator import TestKitEvaluator
 
@@ -17,12 +14,11 @@ class Environment:
     test_kit_evaluator: TestKitEvaluator
     result_consumers: List[ResultConsumer]
 
-    def __init__(self, current_date, counties, num_test_kits_per_day):
+    def __init__(self, current_date, counties, num_test_kits_per_day, agent, test_kit_evaluator):
         self.current_date = current_date
         self.counties = counties
-        self.agent = EpsilonGreedyAgent(self.counties, num_test_kits_per_day)
-        # self.agent = NaiveAgent(self.counties, num_test_kits_per_day)
-        self.test_kit_evaluator = RandomTestKitEvaluator()
+        self.agent = agent
+        self.test_kit_evaluator = test_kit_evaluator
         self.result_consumers = [PrintResultConsumer(), PandasResultConsumer(), self.agent]
 
         # Tell the agent to distribute the test kits before the first day is simulated so every county starts with some
