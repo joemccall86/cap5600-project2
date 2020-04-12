@@ -62,10 +62,10 @@ if __name__ == '__main__':
     ]
 
     # The start date of the simulation
-    start_date = datetime(2020, 1, 1)
+    start_date = datetime(2020, 2, 25)
 
     # The end date of the simulation
-    end_date = datetime(2020, 3, 23)
+    end_date = datetime(2020, 4, 10)
 
     # The number of test kits available for distribution per-day
     num_test_kits_per_day = 1_000
@@ -86,3 +86,4 @@ if __name__ == '__main__':
         test_kit_evaluator)
 
     simulation.run()
+

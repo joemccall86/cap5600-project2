@@ -61,9 +61,10 @@ class PandasTestKitEvaluator(TestKitEvaluator):
         :return:
         """
         date_string = current_date.strftime('%Y-%m-%d')
+        #converted_date = '2020-01-21'
         infected_population = self.data_frame.loc[county.name, date_string]
         infection_percent = infected_population / county.population
-        chance = random.random()
+        chance = random()
         result = False
         if chance < infection_percent:
             result = True
