@@ -5,6 +5,7 @@ from county import County
 from environment import Environment
 from epsilon_greedy_agent import EpsilonGreedyAgent
 from naive_agent import NaiveAgent
+from pandas_test_kit_evaluator import PandasTestKitEvaluator
 from random_test_kit_evaluator import RandomTestKitEvaluator
 
 """
@@ -74,7 +75,7 @@ if __name__ == '__main__':
     # agent = NaiveAgent(counties, num_test_kits_per_day)
 
     # Define the test kit evaluator. It can either be RandomTestKitEvaluator or PandasTestKitEvaluator
-    test_kit_evaluator = RandomTestKitEvaluator()
+    test_kit_evaluator = PandasTestKitEvaluator()
 
     simulation = Simulation(
         start_date,

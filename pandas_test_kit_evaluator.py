@@ -1,3 +1,5 @@
+from random import random
+
 import pandas as pd
 from test_kit_evaluator import TestKitEvaluator
 
@@ -58,11 +60,12 @@ class PandasTestKitEvaluator(TestKitEvaluator):
         :param current_date: the date to check for
         :return:
         """
-        infected_population = self.data_frame.loc[County.name, current_date]
-        infection_percent = infected_population / County.population
+        date_string = current_date.strftime('%Y-%m-%d')
+        infected_population = self.data_frame.loc[county.name, date_string]
+        infection_percent = infected_population / county.population
         chance = random.random()
         result = False
-        if (chance < infection_percent):
+        if chance < infection_percent:
             result = True
 
-        return (result)
+        return result
