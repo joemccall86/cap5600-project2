@@ -53,11 +53,11 @@ if __name__ == '__main__':
 
     # The counties we want to simulation. County population information gathered from Wikipedia.
     counties = [
-        County('Miami-Dade', 2_761_581),
-        County('Broward', 1_951_260),
-        County('Palm Beach', 1_485_941),
-        County('Monroe', 75_027),
-        County('Collier', 378_488)
+        County('Miami-Dade, Florida', 2_761_581),
+        County('Broward, Florida', 1_951_260),
+        County('Palm Beach, Florida', 1_485_941),
+        County('Monroe, Florida', 75_027),
+        County('Collier, Florida', 378_488)
     ]
 
     # The start date of the simulation
