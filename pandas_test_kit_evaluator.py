@@ -1,17 +1,24 @@
 from random import random
+from typing import List
 
 import pandas as pd
+
+from county import County
 from test_kit_evaluator import TestKitEvaluator
 
 
 class PandasTestKitEvaluator(TestKitEvaluator):
 
-    def __init__(self):
+    counties: List[County]
+
+    def __init__(self, counties):
+        self.counties = counties
         self.data_frame = self.get_data_frame()
 
     def get_data_frame(self):
 
-        data_url = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv'
+        data_url = 'us-counties.csv'
+        # data_url = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv'
 
         df = pd.read_csv(data_url, error_bad_lines=False)
 
@@ -34,16 +41,14 @@ class PandasTestKitEvaluator(TestKitEvaluator):
         infection_frame = pd.DataFrame(index=areas_list, columns=dates_list)
 
         # filter frame for counties in question
-
-        selected_counties = ['Broward, Florida', 'Miami-Dade, Florida', 'Collier, Florida', 'Monroe, Florida',
-                             'Palm Beach, Florida']
+        selected_counties = [c.name for c in self.counties]
         final_frame = infection_frame.loc[selected_counties]
 
         # fill the final frame for use compared to available data
         for location in selected_counties:
             for time in dates_list:
                 target = df[(df['Area'] == location) & (df['date'] == time)]
-                if target.empty == False:
+                if not target.empty:
                     insert_value = target.iloc[0]['cases']
                     final_frame.at[location, time] = insert_value
 

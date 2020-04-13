@@ -52,30 +52,41 @@ class Simulation:
 
 if __name__ == '__main__':
 
-    # The counties we want to simulation. County population information gathered from Wikipedia.
+    # We can retrieve the number of tests done up to this point. Let's correlate this data with the data from the
+    # following URL:
+
+    # https://services1.arcgis.com/CY1LXxl9zlJeBuRZ/arcgis/rest/services/Florida_COVID19_Cases/FeatureServer/0/query?where=1%3D1&outFields=DATESTAMP,T_total,COUNTYNAME&returnGeometry=false&outSR=4326&f=json
+
+    # We can use the total number of tests up to this point for a specific county to provide for a more accurate count.
+    # So instead of determining the percent infected based on the population of people, determine it based on the
+    # population of known tests.
+
+    # These numbers were hand-computed
     counties = [
-        County('Miami-Dade, Florida', 2_761_581),
-        County('Broward, Florida', 1_951_260),
-        County('Palm Beach, Florida', 1_485_941),
-        County('Monroe, Florida', 75_027),
-        County('Collier, Florida', 378_488)
+        County('Miami-Dade, Florida', 39077),
+        County('Broward, Florida', 24451),
+        County('Palm Beach, Florida', 10445),
+        County('Monroe, Florida', 749),
+        County('Collier, Florida', 3342)
     ]
 
     # The start date of the simulation
-    start_date = datetime(2020, 2, 25)
+    start_date = datetime(2020, 1, 21)
 
     # The end date of the simulation
-    end_date = datetime(2020, 4, 10)
+    end_date = datetime(2020, 4, 11)
 
     # The number of test kits available for distribution per-day
-    num_test_kits_per_day = 1_000
+    num_test_kits_per_day = 100
 
     # Define the agent. It can either be EpsilonGreedyAgent or NaiveAgent
     agent = EpsilonGreedyAgent(counties, num_test_kits_per_day)
     # agent = NaiveAgent(counties, num_test_kits_per_day)
 
     # Define the test kit evaluator. It can either be RandomTestKitEvaluator or PandasTestKitEvaluator
-    test_kit_evaluator = PandasTestKitEvaluator()
+    test_kit_evaluator = PandasTestKitEvaluator(counties)
+
+    # What we are seeing: the number of test cases observed is
 
     simulation = Simulation(
         start_date,
