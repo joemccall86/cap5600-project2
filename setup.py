@@ -6,5 +6,8 @@ setup(
     packages=find_packages(),
 
     # Project uses PANDAS. As of this writing 1.0.3 is required
-    install_requires=['pandas>=1.0.3']
+    install_requires=[
+        'pandas>=1.0.3',
+        'requests>=2.23.0'
+    ]
 )

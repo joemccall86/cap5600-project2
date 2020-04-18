@@ -1,6 +1,8 @@
 from datetime import datetime
 from typing import List
 
+import requests
+
 from county import County
 from environment import Environment
 from epsilon_greedy_agent import EpsilonGreedyAgent
@@ -50,31 +52,61 @@ class Simulation:
             environment.simulate_day()
 
 
+def build_counties(county_names_in, state_in):
+    """
+    Build the counties in Florida based on the data from Florida's DOH data
+    See https://open-fdoh.hub.arcgis.com/datasets/florida-covid19-cases-by-county
+    :param county_names_in: the list of counties to check
+    :return: the built list of county objects and their "populations" based on the number of total tests.
+    """
+    built_counties = []
+
+    # Grab the data from the Florida DOH API
+    raw_request = requests.get(
+        'https://services1.arcgis.com/CY1LXxl9zlJeBuRZ/arcgis/rest/services/Florida_COVID19_Cases/FeatureServer/0'
+        '/query?where=1%3D1&outFields=DATESTAMP,T_total,COUNTYNAME&returnGeometry=false&outSR=4326&f=json')
+
+    # Filter it to just the cases list
+    cases_list = raw_request.json()["features"]
+
+    # Build out the list of counties
+    for county_name in county_names_in:
+        matching_counties = list(filter(lambda x: x['attributes']['COUNTYNAME'] == county_name.upper(), cases_list))
+
+        # Fail fast if this response does not contain one of the counties we're looking for
+        if len(matching_counties) == 0:
+            raise 'County with name ' + county_name + ' not found in json'
+
+        # Based on the data grab the total number of tests to this point
+        num_tests = int(matching_counties[0]['attributes']['T_total'])
+
+        full_county_name = county_name + ', ' + state_in
+        county = County(full_county_name, num_tests)
+        built_counties.append(county)
+
+        # Print out for debugging purposes
+        print('Testing County ' + county.name + ', ' + str(county.population))
+
+    return built_counties
+
+
 if __name__ == '__main__':
 
-    # We can retrieve the number of tests done up to this point. Let's correlate this data with the data from the
-    # following URL:
-
-    # https://services1.arcgis.com/CY1LXxl9zlJeBuRZ/arcgis/rest/services/Florida_COVID19_Cases/FeatureServer/0/query?where=1%3D1&outFields=DATESTAMP,T_total,COUNTYNAME&returnGeometry=false&outSR=4326&f=json
-
-    # We can use the total number of tests up to this point for a specific county to provide for a more accurate count.
-    # So instead of determining the percent infected based on the population of people, determine it based on the
-    # population of known tests.
-
-    # These numbers were hand-computed
-    counties = [
-        County('Miami-Dade, Florida', 39077),
-        County('Broward, Florida', 24451),
-        County('Palm Beach, Florida', 10445),
-        County('Monroe, Florida', 749),
-        County('Collier, Florida', 3342)
+    county_names = [
+        'Miami-Dade',
+        'Broward',
+        'Palm Beach',
+        'Monroe',
+        'Collier'
     ]
+
+    counties = build_counties(county_names, 'Florida')
 
     # The start date of the simulation
     start_date = datetime(2020, 1, 21)
 
     # The end date of the simulation
-    end_date = datetime(2020, 4, 11)
+    end_date = datetime(2020, 4, 18)
 
     # The number of test kits available for distribution per-day
     num_test_kits_per_day = 100
