@@ -57,7 +57,7 @@ class PandasTestKitEvaluator(TestKitEvaluator):
 
         return final_frame
 
-    def evaluate_test(self, county, current_date):
+    def update_county_data(self, county, current_date):
         """
         Evaluate the county's chances of returning a positive result based on the data stored by Pandas and the
         current date.
@@ -72,7 +72,15 @@ class PandasTestKitEvaluator(TestKitEvaluator):
         # Update the actual positive cases on the county object from real data
         county.num_actual_positive_cases = infected_population
 
-        infection_percent = infected_population / county.population
+    def evaluate_test(self, county, current_date):
+        """
+        Evaluate the county's chances of returning a positive result based on the data stored by Pandas and the
+        current date.
+        :param county: the county to check
+        :param current_date: the date to check for
+        :return:
+        """
+        infection_percent = county.num_actual_positive_cases / county.population
         chance = random()
         result = False
         if chance < infection_percent:

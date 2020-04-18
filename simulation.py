@@ -114,8 +114,8 @@ if __name__ == '__main__':
     num_test_kits_per_day = 100
 
     # Define the agent. It can either be EpsilonGreedyAgent or NaiveAgent
-    # agent = EpsilonGreedyAgent(counties, num_test_kits_per_day)
-    agent = NaiveAgent(counties, num_test_kits_per_day)
+    agent = EpsilonGreedyAgent(counties, num_test_kits_per_day)
+    # agent = NaiveAgent(counties, num_test_kits_per_day)
 
 
     # Define the test kit evaluator. It can either be RandomTestKitEvaluator or PandasTestKitEvaluator

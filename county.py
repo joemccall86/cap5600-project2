@@ -20,6 +20,7 @@ class County:
         Run all the test kits, updating the number of positive cases and number of test kits remaining
         :return:
         """
+        test_kit_evaluator.update_county_data(self, current_date)
         for _ in range(self.num_test_kits):
             self.perform_test(test_kit_evaluator, current_date)
 

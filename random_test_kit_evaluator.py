@@ -13,3 +13,6 @@ class RandomTestKitEvaluator(TestKitEvaluator):
         coin_flip = random.randint(0, 1)
         positive = coin_flip == 1
         return positive
+
+    def update_county_data(self, county, current_date):
+        return
