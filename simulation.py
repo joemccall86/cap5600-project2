@@ -42,7 +42,6 @@ class Simulation:
         environment = Environment(
             self.start_date,
             self.counties,
-            self.num_test_kits_per_day,
             self.agent,
             self.test_kit_evaluator)
 
@@ -50,6 +49,9 @@ class Simulation:
         while environment.current_date < self.end_date:
             print(f'Day {environment.current_date}:')
             environment.simulate_day()
+
+        # Print the score
+        print(f'The score for agent {type(agent)} is {environment.compute_score()}')
 
 
 def build_counties(county_names_in, state_in):
@@ -112,8 +114,9 @@ if __name__ == '__main__':
     num_test_kits_per_day = 100
 
     # Define the agent. It can either be EpsilonGreedyAgent or NaiveAgent
-    agent = EpsilonGreedyAgent(counties, num_test_kits_per_day)
-    # agent = NaiveAgent(counties, num_test_kits_per_day)
+    # agent = EpsilonGreedyAgent(counties, num_test_kits_per_day)
+    agent = NaiveAgent(counties, num_test_kits_per_day)
+
 
     # Define the test kit evaluator. It can either be RandomTestKitEvaluator or PandasTestKitEvaluator
     test_kit_evaluator = PandasTestKitEvaluator(counties)

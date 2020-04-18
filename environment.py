@@ -14,12 +14,13 @@ class Environment:
     test_kit_evaluator: TestKitEvaluator
     result_consumers: List[ResultConsumer]
 
-    def __init__(self, current_date, counties, num_test_kits_per_day, agent, test_kit_evaluator):
+    def __init__(self, current_date, counties, agent, test_kit_evaluator):
         self.current_date = current_date
         self.counties = counties
         self.agent = agent
         self.test_kit_evaluator = test_kit_evaluator
-        self.result_consumers = [PrintResultConsumer(), PandasResultConsumer(), self.agent]
+        self.pandas_consumer = PandasResultConsumer()
+        self.result_consumers = [PrintResultConsumer(), self.pandas_consumer, self.agent]
 
         # Tell the agent to distribute the test kits before the first day is simulated so every county starts with some
         # test kits.
@@ -48,3 +49,18 @@ class Environment:
         # Advance the day
         self.current_date = self.current_date + timedelta(days=1)
         self.test_kit_evaluator.current_date = self.current_date
+
+    def compute_score(self):
+        """
+        Compute the score based on the number of actual minus the number of measured positive cases on the final day.
+        :return: The score for this environment
+        """
+
+        # The total score is the sum of the differences between the _actual_ positive results for a specific county
+        # and the _measured_ positive results for a specific county. The idea is to minimize this score.
+        score = 0
+        for county in self.counties:
+            delta = county.num_actual_positive_cases - county.num_measured_positive_cases
+            score += abs(delta)
+
+        return score

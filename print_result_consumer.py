@@ -10,4 +10,4 @@ class PrintResultConsumer(ResultConsumer):
         :param results: the results
         :return:
         """
-        print(f"results for county {county.name}: {results}")
+        print(f"results for county {county.name}: {results} out of {county.num_actual_positive_cases}")

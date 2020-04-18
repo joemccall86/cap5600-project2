@@ -8,7 +8,8 @@ class County:
     name = ''
     num_test_kits = 0
     population = 0
-    num_positive_cases = 0
+    num_measured_positive_cases = 0
+    num_actual_positive_cases = 0
 
     def __init__(self, name, population):
         self.name = name
@@ -33,7 +34,7 @@ class County:
 
         positive = test_kit_evaluator.evaluate_test(self, current_date)
         if positive:
-            self.num_positive_cases += 1
+            self.num_measured_positive_cases += 1
 
         return positive
 
@@ -51,4 +52,4 @@ class County:
         Report the number of positive cases in this county
         :return: the number of positive cases in this county
         """
-        return self.num_positive_cases
+        return self.num_measured_positive_cases

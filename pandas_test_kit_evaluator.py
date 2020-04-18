@@ -68,6 +68,10 @@ class PandasTestKitEvaluator(TestKitEvaluator):
         date_string = current_date.strftime('%Y-%m-%d')
         #converted_date = '2020-01-21'
         infected_population = self.data_frame.loc[county.name, date_string]
+
+        # Update the actual positive cases on the county object from real data
+        county.num_actual_positive_cases = infected_population
+
         infection_percent = infected_population / county.population
         chance = random()
         result = False
