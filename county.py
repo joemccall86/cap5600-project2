@@ -10,6 +10,7 @@ class County:
     population = 0
     num_measured_positive_cases = 0
     num_actual_positive_cases = 0
+    score = 0
 
     def __init__(self, name, population):
         self.name = name
@@ -26,6 +27,9 @@ class County:
 
         # We have used up all the test kits, so set the number to 0
         self.num_test_kits = 0
+
+        # Update the score for this county thus far
+        self.score += abs(self.num_actual_positive_cases - self.num_measured_positive_cases)
 
     def perform_test(self, test_kit_evaluator, current_date):
         """

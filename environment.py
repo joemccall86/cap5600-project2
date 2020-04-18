@@ -52,15 +52,13 @@ class Environment:
 
     def compute_score(self):
         """
-        Compute the score based on the number of actual minus the number of measured positive cases on the final day.
+        Compute the score based on the number of actual minus the number of measured positive cases, summed from every
+        day.
         :return: The score for this environment
         """
 
-        # The total score is the sum of the differences between the _actual_ positive results for a specific county
-        # and the _measured_ positive results for a specific county. The idea is to minimize this score.
         score = 0
         for county in self.counties:
-            delta = county.num_actual_positive_cases - county.num_measured_positive_cases
-            score += abs(delta)
+            score += county.score
 
         return score
