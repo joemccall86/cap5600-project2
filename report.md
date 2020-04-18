@@ -51,6 +51,8 @@ The goal is to use an artificial intelligent agent to smartly distribute limited
 * Score for each "arm" (county) computed based on number of positive results
 * Results are fed into the agent to help determine the distribution of test kits
 * The agent distributes the test kit
+* The score for the agent is computed and added to the county
+* At the end of the simulation the scores for each county are summed to display the final score.
 
 ## Naive Agent
 
@@ -67,15 +69,32 @@ The epilon-greedy agent is described by a constant defined as $\epsilon$, which 
 $$
 N_i =
 \begin{dcases}
-(1 - \epsilon) \times M, f(N_i) = max(f) \\
-\frac{(\epsilon \times M)}{N - 1}, f(N_i) \ne max(f) 
+(1 - \epsilon) \times N, f(N_i) = max(f) \\
+\frac{(\epsilon \times N)}{M}, f(N_i) \ne max(f) 
 \end{dcases}
 $${#fig:epsilonGreedyAgent}
+
+In other words, the value of $\epsilon$ indicates the agent's preference of exploration to exploitation. When $\epsilon = 1$, the behavior agent's behavior is identical to the naive agent. When $\epsilon = 0$ the agent distributes all of the test kits to the first county that reports a positive result.
+
+## Score Function
+
+The agent's effectiveness is computed based on how close its value came to the actual values for each county. A perfect score in this case would be 0, since every day the agent distributes the perfect number of test kits that are all positive. See @fig:score, where $S$ is the score for the agent being tested, $D$ is the number of days, $C$ is the number of counties, $P_a$ is the number of actual positive cases from the data set, and $P_m$ is the number of measured positive cases in the simulation.
+
+$$
+S = \displaystyle\sum_{i=1}^{D}\displaystyle\sum_{j=1}^{C}(|P_a(i, j) - P_m(i, j)|)
+$${#fig:score}
+
 
 # Experiment
 
 # Results
 
 # Conclusion
+
+The agent that employed epsilon-greedy outperformed the naive agent slightly. This indicates that it is preferable to distribute more test kits to a county with a higher number of previous cases than it is to keep the test kit distribution even.
+
+<!-- TODO our scoring function could use work. If epsilon is 0 we maximize our score, which is incorrect. We need to ensure that the agent is penalized more for neglected counties -->
+
+This experiment focused on five counties in Florida, but tests for more counties could prove useful. Further work could test the score of other solutions to the multi-armed bandit problem. A more sophisticated algorithm could take into account the county density, for example. Also the scoring function could be adjusted to reward negative test results, as those hold value as well as positive results. Another area worth exploring is training a neural network based on historical pandemic data to predict which areas should be prioritized before test kits are distributed.
 
 # References
