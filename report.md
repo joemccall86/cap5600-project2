@@ -45,6 +45,24 @@ The goal is to use an artificial intelligent agent to smartly distribute limited
 
 # Methods
 
+## Classes
+
+* Simulation - the container that sets up the simulation, defining the start/end dates, agents to use, and number of test kits available per-day.
+* Environment - the container for the environment state at a specific day. Simulates the passage of time and computes the score of the agent.
+* Agent - an abstraction of the agent that defines the sensors (`consume_result`) and actuators (`distribute_test_kits`).
+  * NaiveAgent - a specification of Agent that distributes test kits evenly among all the counties.
+  * EpsilonGreedyAgent - a specification of Agent that uses an epsilon-greedy approach to distribute test kits while balancing the exploration/exploitation trade-off.
+* County - a county under simulation
+* TestKitEvaluator - an asbtraction of a means to evaluate a test kit
+  * RandomTestKitEvaluator - a specification of TestKitEvaluator that evaluates the test based on the result of a coin-flip
+  * PandasTestKitEvaluator - a specification of TestKitEvaluator that reads in data from a dataset (using the Pandas library) to determine the appropriate percent of positive cases detected, and  evaluate the test kit based on that percent chance of positivity.
+* ResultConsumer - an abstraction of a class that consumes the result of the test
+  * PrintResultConsumer - prints the results of all the tests for that day to STDOUT
+  * PandasResultConsumer - stores the results in a Pandas data frame for later use
+
+## Simulation Overview
+
+
 * Simulation run for T days.
 * Each day N test kits are distributed among M counties
 * Test kits evaluated based on percent of population infected for that day
@@ -64,13 +82,13 @@ $${#fig:naiveAgent}
 
 ## Epsilon-Greedy Agent
 
-The epilon-greedy agent is described by a constant defined as $\epsilon$, which is used in the computation of test kits distributed to the highest counties per-day. This is illustrated in @fig:epsilonGreedyAgent. If the number of detected cases in the county the previous day (given by $f(N_i)$) is the greatest number (given by $max(f)$), then the number of cases is $(1 - \epsilon) \times M$. These are considered the "exploitation" test kits. The remaining "exploration" test kits are distributed evenly among the remaining counties.
+The epilon-greedy agent is described by a constant defined as $\epsilon$, which is used in the computation of test kits distributed to the highest counties per-day. This is illustrated in @fig:epsilonGreedyAgent. If the number of detected cases in the county the previous day (given by $P_m(i-1)$) is the greatest number (given by $max(P_m)$), then the number of cases is $N(1 - \epsilon)$. These are considered the "exploitation" test kits. The remaining "exploration" test kits are distributed evenly among all the counties.
 
 $$
 N_i =
 \begin{dcases}
-(1 - \epsilon) \times N, f(N_i) = max(f) \\
-\frac{(\epsilon \times N)}{M}, f(N_i) \ne max(f) 
+N(1 - \epsilon) + \frac{N\epsilon}{M} & P_m(i-1) = max(P_m) \\
+\frac{N\epsilon}{M} & P_m(i-1) \ne max(P_m) 
 \end{dcases}
 $${#fig:epsilonGreedyAgent}
 
@@ -81,7 +99,7 @@ In other words, the value of $\epsilon$ indicates the agent's preference of expl
 The agent's effectiveness is computed based on how close its value came to the actual values for each county. A perfect score in this case would be 0, since every day the agent distributes the perfect number of test kits that are all positive. See @fig:score, where $S$ is the score for the agent being tested, $D$ is the number of days, $C$ is the number of counties, $P_a$ is the number of actual positive cases from the data set, and $P_m$ is the number of measured positive cases in the simulation.
 
 $$
-S = \displaystyle\sum_{i=1}^{D}\displaystyle\sum_{j=1}^{C}(|P_a(i, j) - P_m(i, j)|)
+S = \displaystyle\sum_{i=1}^{D}\displaystyle\sum_{j=1}^{C}|P_a(i, j) - P_m(i, j)|
 $${#fig:score}
 
 
