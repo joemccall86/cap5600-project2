@@ -1,5 +1,7 @@
 from datetime import datetime
 from typing import List
+import pandas as pd
+import matplotlib.pyplot as plt
 
 import requests
 
@@ -28,6 +30,7 @@ class Simulation:
         self.num_test_kits_per_day = _num_test_kits_per_day
         self.agent = _agent
         self.test_kit_evaluator = _test_kit_evaluator
+        self.environment = ''
 
     def run(self):
         """
@@ -39,19 +42,19 @@ class Simulation:
         print('end date: ' + str(self.end_date))
 
         # Initialize the environment with what we know
-        environment = Environment(
+        self.environment = Environment(
             self.start_date,
             self.counties,
             self.agent,
             self.test_kit_evaluator)
 
         # Run the simulation from start to end
-        while environment.current_date < self.end_date:
-            print(f'Day {environment.current_date}:')
-            environment.simulate_day()
+        while self.environment.current_date < self.end_date:
+            print(f'Day {self.environment.current_date}:')
+            self.environment.simulate_day()
 
         # Print the score
-        print(f'The score for agent {type(agent)} is {environment.compute_score()}')
+        print(f'The score for agent {type(agent)} is {self.environment.compute_score()}')
 
 
 def build_counties(county_names_in, state_in):
@@ -133,3 +136,14 @@ if __name__ == '__main__':
 
     simulation.run()
 
+    #create plot and output
+
+    simulation.environment.pandas_consumer.return_total()
+    actual_results = test_kit_evaluator.return_final_counts()
+    test_results = simulation.environment.pandas_consumer.results_frame
+
+    final_results = actual_results.to_frame().join(test_results)
+
+    plot = final_results.plot.line()
+    fig = plot.get_figure()
+    fig.savefig("plot.png")

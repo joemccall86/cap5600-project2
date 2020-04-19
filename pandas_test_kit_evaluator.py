@@ -55,7 +55,16 @@ class PandasTestKitEvaluator(TestKitEvaluator):
         # replace 'NaN' data points as 0's
         final_frame.fillna(0, inplace=True)
 
+        #add row for totals used to generate graph
+        final_frame.loc['Actual Area Total'] = final_frame.sum()
+
         return final_frame
+
+    def return_final_counts(self):
+
+        self.final_total = self.data_frame.loc['Actual Area Total']
+
+        return self.final_total
 
     def update_county_data(self, county, current_date):
         """

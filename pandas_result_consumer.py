@@ -24,7 +24,16 @@ class PandasResultConsumer(ResultConsumer):
 
         result_frame.fillna(0, inplace=True)
 
+        # result_frame.loc['Area Total'] = result_frame.sum()
+
         return (result_frame)
 
     def consume_result(self, county, date, results):
-        self.results_frame.loc[county, date] = results
+
+        date_string = date.strftime('%Y-%m-%d')
+        self.results_frame.loc[county.name, date_string] = results
+
+    def return_total(self):
+        self.results_frame.loc['Result Area Total'] = self.results_frame.sum()
+        self.results_frame = self.results_frame.loc['Result Area Total']
+        return self.results_frame
