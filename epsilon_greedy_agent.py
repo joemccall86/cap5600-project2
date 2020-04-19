@@ -22,14 +22,14 @@ class EpsilonGreedyAgent(Agent):
 
         # The remaining kits are distributed evenly among the remaining counties (Exploration phase)
         exploration_kits = self.test_kit_capacity - exploitation_kits
-        exploration_kits_per_county = exploration_kits / (len(self.counties) - 1)
+        exploration_kits_per_county = exploration_kits / len(self.counties)
 
         # Distribute the test kits based on the internal map
         for county in self.counties:
             if county == self.highest_county:
                 county.receive_test_kits(int(exploitation_kits))
-            else:
-                county.receive_test_kits(int(exploration_kits_per_county))
+                
+            county.receive_test_kits(int(exploration_kits_per_county))
 
     def consume_result(self, county, date, results):
         """
