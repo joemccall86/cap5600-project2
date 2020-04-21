@@ -105,7 +105,35 @@ $${#fig:score}
 
 # Experiment
 
+## Parameters
+
+The experiment was run on the following counties in Florida:
+
+* Miami-Dade
+* Broward
+* Palm Beach
+* Monroe
+* Collier
+
+These counties were chosen due to their proximity to one another and their differences in case numbers. The test simulated test kits being distributed between 21 January 2020, and 18 April 2020.
+
+The naive agent was run first, then the epsilon-greedy agent was run with an epsilon value of 0.5.
+
+## Assumptions
+
 # Results
+
+| Agent | Score |
+|---|---:|
+| NaiveAgent | 183794 |
+| EpsilonGreedyAgent | 183066 |
+
+The graph of the results of these agents are found in Figure 1 and Figure 2.
+
+![Naive Agent Results](naive_agent.png)
+
+![Epsilon Greedy Agent Results](epsilon_greedy_agent.png)
+
 
 # Conclusion
 

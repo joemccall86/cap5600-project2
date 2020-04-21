@@ -19,7 +19,7 @@ class Environment:
         self.counties = counties
         self.agent = agent
         self.test_kit_evaluator = test_kit_evaluator
-        self.pandas_consumer = PandasResultConsumer()
+        self.pandas_consumer = PandasResultConsumer(self.counties)
         self.result_consumers = [PrintResultConsumer(), self.pandas_consumer, self.agent]
 
         # Tell the agent to distribute the test kits before the first day is simulated so every county starts with some

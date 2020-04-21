@@ -1,7 +1,5 @@
 from datetime import datetime
 from typing import List
-import pandas as pd
-import matplotlib.pyplot as plt
 
 import requests
 
@@ -10,7 +8,6 @@ from environment import Environment
 from epsilon_greedy_agent import EpsilonGreedyAgent
 from naive_agent import NaiveAgent
 from pandas_test_kit_evaluator import PandasTestKitEvaluator
-from random_test_kit_evaluator import RandomTestKitEvaluator
 
 """
 Class that encapsulates the entirety of the simulation
@@ -22,6 +19,7 @@ class Simulation:
     end_date: datetime
     counties: List[County]
     num_test_kits_per_day = 1_000
+    environment: Environment
 
     def __init__(self, _start_date, _end_date, _counties, _num_test_kits_per_day, _agent, _test_kit_evaluator):
         self.start_date = _start_date
@@ -30,7 +28,6 @@ class Simulation:
         self.num_test_kits_per_day = _num_test_kits_per_day
         self.agent = _agent
         self.test_kit_evaluator = _test_kit_evaluator
-        self.environment = ''
 
     def run(self):
         """
@@ -142,8 +139,8 @@ if __name__ == '__main__':
     actual_results = test_kit_evaluator.return_final_counts()
     test_results = simulation.environment.pandas_consumer.results_frame
 
-    final_results = actual_results.to_frame().join(test_results)
+    final_results = test_results.to_frame().join(actual_results)
 
-    plot = final_results.plot.line()
+    plot = final_results.plot.line(logy=True)
     fig = plot.get_figure()
     fig.savefig("plot.png")

@@ -10,6 +10,7 @@ from test_kit_evaluator import TestKitEvaluator
 class PandasTestKitEvaluator(TestKitEvaluator):
 
     counties: List[County]
+    actual_positive_cases_key = 'Actual Positive Cases (P_a)'
 
     def __init__(self, counties):
         self.counties = counties
@@ -56,13 +57,13 @@ class PandasTestKitEvaluator(TestKitEvaluator):
         final_frame.fillna(0, inplace=True)
 
         #add row for totals used to generate graph
-        final_frame.loc['Actual Area Total'] = final_frame.sum()
+        final_frame.loc[self.actual_positive_cases_key] = final_frame.sum()
 
         return final_frame
 
     def return_final_counts(self):
 
-        self.final_total = self.data_frame.loc['Actual Area Total']
+        self.final_total = self.data_frame.loc[self.actual_positive_cases_key]
 
         return self.final_total
 
