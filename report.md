@@ -59,6 +59,15 @@ The goal is to use an artificial intelligent agent to smartly distribute limited
 * ResultConsumer - an abstraction of a class that consumes the result of the test
   * PrintResultConsumer - prints the results of all the tests for that day to STDOUT
   * PandasResultConsumer - stores the results in a Pandas data frame for later use
+  
+## Data Acquisition and Storing (Pandas)
+
+Pandas is an open source python library that is heavily used in the data science community that allows for the easy acquistion, transformation, and storage of data.  Pandas was used in the follow ways for this project:
+
+* Obtaining actual infection data from NY times that contains data by county and provides dates, infection counts, and death counts.
+* Transformed the data from the entire United States to the five counties in Florida used for this project
+* Computing, retrieving, and storing actual infection results and test results from the test kits the agent distributed
+* Creating the graphs that are both generated when the simulation runs and the graphs included in this report
 
 ## Simulation Overview
 
