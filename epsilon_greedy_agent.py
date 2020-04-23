@@ -7,7 +7,7 @@ class EpsilonGreedyAgent(Agent):
     # Epsilon value that shows how much exploration is favored over exploitation.
     # A value of 1 will always distribute the test kits evenly
     # A value of 0 will always give all of the test kits to the county with the most positive cases the previous day
-    epsilon = 0.5
+    epsilon = 1
 
     def __init__(self, counties, test_kit_capacity):
         super().__init__(counties, test_kit_capacity)
@@ -39,7 +39,7 @@ class EpsilonGreedyAgent(Agent):
         :param results: the number of positive cases
         :return:
         """
-        self.county_cases[county] += results
+        self.county_cases[county] += county.score
 
         # Update the highest county
         for county in self.counties:

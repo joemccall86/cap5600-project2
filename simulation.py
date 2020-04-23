@@ -66,7 +66,7 @@ def build_counties(county_names_in, state_in):
     # Grab the data from the Florida DOH API
     raw_request = requests.get(
         'https://services1.arcgis.com/CY1LXxl9zlJeBuRZ/arcgis/rest/services/Florida_COVID19_Cases/FeatureServer/0'
-        '/query?where=1%3D1&outFields=DATESTAMP,T_total,COUNTYNAME&returnGeometry=false&outSR=4326&f=json')
+        '/query?where=1%3D1&outFields=T_total,COUNTYNAME&returnGeometry=false&outSR=4326&f=json')
 
     # Filter it to just the cases list
     cases_list = raw_request.json()["features"]

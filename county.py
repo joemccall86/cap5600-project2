@@ -2,6 +2,7 @@
 Represents a county in this simulation. Each county is responsible for running their own tests,
 keeping track of the number of test kits they have, and reporting back the results.
 """
+from scoring_strategy import ScoringStrategy
 
 
 class County:
@@ -9,6 +10,7 @@ class County:
     num_test_kits = 0
     population = 0
     num_measured_positive_cases = 0
+    num_measured_negative_cases = 0
     num_actual_positive_cases = 0
     score = 0
 
@@ -29,7 +31,7 @@ class County:
         self.num_test_kits = 0
 
         # Update the score for this county thus far
-        self.score += abs(self.num_actual_positive_cases - self.num_measured_positive_cases)
+        self.score += ScoringStrategy.compute_score(self)
 
     def perform_test(self, test_kit_evaluator, current_date):
         """
