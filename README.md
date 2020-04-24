@@ -37,91 +37,24 @@ option | type | description
 `agent` | `Agent` | The type of agent to use in the simulation. Use `NaiveAgent` or `EpsilonGreedyAgent`.
 `test_kit_evaluator` | `TestKitEvaluator` | The implementation of the class used to evaluate the test kits. Use `RandomTestKitEvaluator` or `PandasTestKitEvaluator`
  
+Requirements are expressed using standard python `setuptools`. To install the dependencies run:
+
+```bash
+python3 setup.py install --user
+```
 
 To run the simulation, run:
 
 ```bash
-python simulation.py
+python3 simulation.py
 ```
 
 Daily reported infections will be printed to STDOUT. At the end of the simulation a graph will be generated with the current timestamp in a PNG form.
 The agents are evaluated based on minimizing the difference between the sum of the positive results measured for every county and the sum of the total actual results from every county.
 
-## Methods (classes)
-
-### Variables
-
-Simulation:
-
-* Date range to simulate
-* The counties being simulated
-* Production count of test kits per-day
-* Table of actual infection numbers. Look up based on county and day.
-* Which agent implementation to use
-
-Environment:
-
-* Current date
-* County list
-* Distribution agent
-
-County:
-
-* Population count
-* Number of test kits (N)
-* The result of using those test kits (measured positive + measured negative)
-* Method to test population
-
-All agents:
-
-* Table of counties and their test results
-* Method to distribute test kits
-
-Epsilon-Greedy Agent:
-
-* Average "payout" for each county. This is based on the utility function where a positive test result is 10 points and a negative test result is 1 point.
-* Epsilon value (e.g., 0.10)
-* Assuming 1000 test kits for 5 counties, epsilon = 0.10:
-    * (1 - epsilon) + (epsilon / k) * 100 = 920 test kits to the county with the highest score 
-    * 20 test kits to the remaining 4 counties respectively
-    * Note we may need to adjust the scoring algorithm and epsilon to find a useful combination. Keep them constant for the sake of simplicity in this experiment.
-    
-Test Evaluator:
-
-* Actual data evaluator
-* Random evaluator
-* Simulated evaluator
-    
-### Simulation
-
-Read in simulation config to have `start_date`, `end_date`, `counties`, `agent_type`, and `test_kit_production_capacity`.
-
-* Each day:
-  * Each county c:
-    * get test results
-    * print/export results, along with actual numbers
-    * feed results to agent
-  * Instruct the agent to distribute `test_kit_production_capacity` test kits to all `counties`
-* At the end of the simulation, print the accumulated utility of the agent implementation
-
-We will test the following strategies:
-
-* naive - `test_kit_production_capacity` / `counties.length()` test kits to each county
-* epsilon-greedy
- 
-### Test Method
-
-Each county will call `perform_test` for each test kit they have. Since this is a simulation its success percentage will be:
-
-    alpha * num_infected(day) / population
-    
-where `alpha` is a constant that represents the fact that someone who is asymptomatic will not be tested (suggested: start with 2, indicating that we rule 50% of the population out appear to have not been exposed).
-
-The test will return `True` or `False` based on whether or not a random number between 1 and 100 are within the test success percentage.
-
 ## Requirements
 
-This project is built with Python 3.8
+This project is built with Python 3.8 but has been tested with Python 3.6.
 
 ## Task Environment (PEAS)
 
@@ -145,13 +78,13 @@ Data is pulled from https://www.nytimes.com/article/coronavirus-county-data-us.h
 
 - [X] Create classes to run the environment
 - ~[X] Read initial information from a config file (YAML?)~ configuration done in `simulation.py`
-- [ ] Implement reading infection data using PANDAS and the NYT test data
+- [X] Implement reading infection data using PANDAS and the NYT test data
 - [X] Discover useful data set from NYT test data (South Florida)
 - [X] Implement even distribution of test kits strategy
 - [X] Implement epsilon-greedy strategy
-- [ ] Run the experiment with both strategies, adjusting the data as needed
-- [ ] Plot the data in a line chart for each county
-- [ ] Summarize experiment in report
+- [X] Run the experiment with both strategies, adjusting the data as needed
+- [X] Plot the data in a line chart for each county
+- [X] Summarize experiment in report
 - [X] Build tools to package project
 - [X] Document running the project
 - [ ] Earn another A

@@ -17,6 +17,7 @@ setup(
     # Project uses PANDAS. As of this writing 1.0.3 is required
     install_requires=[
         'pandas>=1.0.3',
-        'requests>=2.23.0'
+        'requests>=2.23.0',
+        'matplotlib>=3.2.1'
     ]
 )
