@@ -1,3 +1,12 @@
+"""
+/**
+ * This class represents an environment in the simulation
+ * 
+ * @author Joe McCall; Chris Zahuranec
+ * @date 4/24/2020
+ * @info Course CAP5600
+ */
+"""
 from datetime import datetime, timedelta
 from typing import List
 
@@ -15,6 +24,9 @@ class Environment:
     result_consumers: List[ResultConsumer]
 
     def __init__(self, current_date, counties, agent, test_kit_evaluator):
+        """
+        Constructor
+        """
         self.current_date = current_date
         self.counties = counties
         self.agent = agent

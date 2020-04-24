@@ -1,3 +1,12 @@
+"""
+/**
+ * Setup class used by setup-tools in Python
+ *
+ * @author Joe McCall; Chris Zahuranec
+ * @date 4/24/2020
+ * @info Course CAP5600
+ */
+"""
 from setuptools import setup, find_packages
 
 setup(

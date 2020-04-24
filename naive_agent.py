@@ -1,13 +1,21 @@
+"""
+/**
+ * Implementation of an agent that evenly distributes test kits evenly to all counties
+ * 
+ * @author Joe McCall; Chris Zahuranec
+ * @date 4/24/2020
+ * @info Course CAP5600
+ */
+"""
 from agent import Agent
-
-"""
-Implementation of an agent that evenly distributes test kits evenly to all counties
-"""
 
 
 class NaiveAgent(Agent):
 
     def __init__(self, counties, test_kit_capacity):
+        """
+        Constructor
+        """
         super().__init__(counties, test_kit_capacity)
 
     def distribute_test_kits(self):

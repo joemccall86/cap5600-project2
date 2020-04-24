@@ -40,13 +40,19 @@ adequate tests for every person in a geographical area, but given the novel natu
 
 While test kits are manufactured every day, the distributor of those test kits is left with a dilemma: should one distribute more to areas that appear to be experiencing more infections? If so, how much of the limited test kits should be allocated to highly-infectuous areas and how much should be allocated to areas with low levels of infection?
 
-By combining positive and negative cases into a "score," one could model this problem as a classical multi-armed bandit problem, which illustrates the dilemma between exploration and exploitation. Specifically, the exploration of areas with low infection rates should be reconciled with the exploitation of areas with high infection rates. Given the multi-armed bandit problem is established, one can apply several known solutions to this problem and evaluate its performance against real publicly-provided infection data [@NYTData]. Since the data is given by counties, the simulation will be run with counties.
+By combining positive and negative cases into a "score," one could model this problem as a classical multi-armed bandit problem, which illustrates the dilemma between exploration and exploitation. The multi-armed bandit problem imagines a row of slot machines (colloquially known as one-armed bandits) that produce a seemingly random score when an arm is pulled. In such a problem, the agent must decide which arms to pull, considering one of the arms may produce a higher score when pulled more than the other arms. However, if the agent only pulls one arm, he loses out on the opportunity to explore a potentially higher-value arm. The agent can only pull so many arms in a period of time - hence the dilemma. Several algorithms exist to help solve this problem. 
+
+Specifically, the exploration of areas with low infection rates should be reconciled with the exploitation of areas with high infection rates. Given the multi-armed bandit problem is established, one can apply several known solutions to this problem and evaluate its performance against real publicly-provided infection data [@NYTData]. This paper explores the epsilon-greedy algorithm as applied to infected counties.
 
 The goal is to use an artificial intelligent agent to smartly distribute limited test kits where they are needed most. Can an artificially intelligent agent out-perform a naive approach of equal test distribution? Such an agent would help mitigate the test kit shortage until enough test kits can be distributed for everyone.
 
 # Methods
 
+The application is written in the Python programming language and uses an object-oriented programming design. Data is provided from [@NYTData] and [@FDOH] and parsed into accessible data frames. Both the naive agent and an epsilon greedy agent are provided. One is chosen in the simulation class before the experiment is run.
+
 ## Classes
+
+The code follows an object-oriented approach. Some classes have subclasses that offer a specific implementation of its purpose.
 
 * Simulation - the container that sets up the simulation, defining the start/end dates, agents to use, and number of test kits available per-day.
 * Environment - the container for the environment state at a specific day. Simulates the passage of time and computes the score of the agent.
@@ -73,15 +79,7 @@ Pandas is an open source python library that is heavily used in the data science
 
 ## Simulation Overview
 
-
-* Simulation run for T days.
-* Each day N test kits are distributed among M counties
-* Test kits evaluated based on percent of population infected for that day
-* Score for each "arm" (county) computed based on the scoring strategy
-* Results are fed into the agent to help determine the distribution of test kits
-* The agent distributes the test kit
-* The score for the agent is computed and added to the county
-* At the end of the simulation the scores for each county are summed to display the final score.
+The simulation run with a start and end date, provided as parameters in the simulation class. Each day $N$ test kits are distributed among $M$ counties. The test kits are evaluated based on percent of population infected for that day, as reported by the actual data sources. The environment then evaluates the score for each county under simulation based on the configured scoring strategy. Those results are fed as inputs to the agent to help determine which counties receive additional test kits. Once all the test results are in the agent distributes the test kits according to its configured algorithm (in this case, epsilon-greedy). At the end of the simulation the scores for each county are summed to display the final score. The pandas library will also generate a graph that compares the distribution of tests against the increase of cases among the tested counties.
 
 ## Naive Agent
 
@@ -118,7 +116,7 @@ $${#fig:score}
 A test kit returns positive at a percent equal to the actual percent of positive cases for the county as reported by [@NYTData] for that day. See @fig:test, where $R_m(i, j)$ is the positive rate for county $c$ at date $d$.
 
 $$
-R_m(c, d) = \frac{P_a(C, D)}{T_a(c, d)}
+R_m(c, d) = \frac{P_a(c, d)}{T_a(c, d)}
 $${#fig:test}
 
 The test is positive if a random float between 0 and 1 is less than $R_m(c, d)$.
@@ -162,12 +160,11 @@ The test was run with several values of $\epsilon$, along with the `NaiveAgent`.
 
 It is useful to view these results within the context of the data from the data-set to reveal how close they are to actually measured data. These are illustrated in figures 2 and 3. The top line represents the actual positive cases found during the reported time period, while the bottom line shows the positive test cases found by the agent during a simulated trial. The y-axis uses a logarithmic scale due to the large difference between the measured cases and the actual cases.
 
+![Naive Agent Results](naive_agent.png){ width=80% }
 
-![Naive Agent Results](naive_agent.png)
+![Epsilon Greedy Agent Results ($\epsilon$ = 0.5)](epsilon_greedy_agent.png){ width=80% }
 
-![Epsilon Greedy Agent Results ($\epsilon$ = 0.5)](epsilon_greedy_agent.png)
-
-
+\pagebreak
 
 # Conclusion
 

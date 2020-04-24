@@ -1,3 +1,12 @@
+"""
+/**
+ * Implementation of an agent that utilizes an epsilon-greedy algorithm to distribute test kits.
+ * 
+ * @author Joe McCall; Chris Zahuranec
+ * @date 4/24/2020
+ * @info Course CAP5600
+ */
+"""
 from random import random
 
 from agent import Agent
@@ -7,9 +16,12 @@ class EpsilonGreedyAgent(Agent):
     # Epsilon value that shows how much exploration is favored over exploitation.
     # A value of 1 will always distribute the test kits evenly
     # A value of 0 will always give all of the test kits to the county with the most positive cases the previous day
-    epsilon = 1
+    epsilon = 0.2
 
     def __init__(self, counties, test_kit_capacity):
+        """
+        Constructor
+        """
         super().__init__(counties, test_kit_capacity)
 
         self.county_cases = dict.fromkeys(counties, 0)
@@ -17,6 +29,10 @@ class EpsilonGreedyAgent(Agent):
         self.highest_county = self.counties[0]
 
     def distribute_test_kits(self):
+        """
+        Distribute the test kits
+        :return:
+        """
         # The top county receives (1-epsilon) * test_kit_capacity test kits (Exploitation phase)
         exploitation_kits = (1 - self.epsilon) * self.test_kit_capacity
 

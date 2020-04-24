@@ -1,6 +1,12 @@
 """
-Represents a county in this simulation. Each county is responsible for running their own tests,
-keeping track of the number of test kits they have, and reporting back the results.
+/**
+ * Represents a county in this simulation. Each county is responsible for running their own tests,
+ * keeping track of the number of test kits they have, and reporting back the results.
+ * 
+ * @author Joe McCall; Chris Zahuranec
+ * @date 4/24/2020
+ * @info Course CAP5600
+ */
 """
 from scoring_strategy import ScoringStrategy
 
@@ -15,6 +21,9 @@ class County:
     score = 0
 
     def __init__(self, name, population):
+        """
+        Constructor for the county
+        """
         self.name = name
         self.population = population
 

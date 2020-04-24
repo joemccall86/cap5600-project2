@@ -1,3 +1,13 @@
+"""
+/**
+ * Main simulation class that runs the experiment
+ *
+ * @author Joe McCall; Chris Zahuranec
+ * @date 4/24/2020
+ * @info Course CAP5600
+ */
+"""
+
 from datetime import datetime
 from typing import List
 

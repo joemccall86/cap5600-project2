@@ -1,3 +1,12 @@
+"""
+/**
+ * Implementation of an agent that utilizes an epsilon-greedy algorithm to distribute test kits.
+ * 
+ * @author Joe McCall; Chris Zahuranec
+ * @date 4/24/2020
+ * @info Course CAP5600
+ */
+"""
 from random import random
 from typing import List
 

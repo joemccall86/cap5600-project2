@@ -1,3 +1,12 @@
+"""
+/**
+ * Implementation of a result consumer that simply prints the results
+ *
+ * @author Joe McCall; Chris Zahuranec
+ * @date 4/24/2020
+ * @info Course CAP5600
+ */
+"""
 from result_consumer import ResultConsumer
 
 
